@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
+import AuthorForm from './components/AuthorForm'
 
 const ALL_AUTHORS = gql`
 {
@@ -40,10 +41,23 @@ const CREATE_BOOK = gql`
     }
   }
 `
+const EDIT_AUTHOR = gql`
+  mutation editAuthor($name: String!, $born: Int!) {
+    editAuthor(
+      name: $name,
+      born: $born,
+     
+    ) {
+      name
+      born
+      
+    }
+  }
+`
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const handleError = (error) => {
-    setErrorMessage(error.graphQLErrors[0].message)
+    setErrorMessage("error.graphQLErrors[0].message")
     setTimeout(() => {
       setErrorMessage(null)
     }, 10000)
@@ -78,6 +92,13 @@ const App = () => {
         {(addBook) =>
           <NewBook
             addBook={addBook}
+          />
+        }
+      </Mutation>
+      <Mutation mutation={EDIT_AUTHOR }  refetchQueries={[{ query: ALL_AUTHORS }]} onError={handleError}>
+        {(editAuthor) =>
+          <AuthorForm
+            editAuthor={editAuthor}
           />
         }
       </Mutation>
