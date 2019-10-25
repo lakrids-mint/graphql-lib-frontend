@@ -1,14 +1,38 @@
 import React, { useState } from 'react'
+import { gql } from 'apollo-boost'
 
-const Authors = (props) => {
-  if (!props.show) {
-    return null
+
+const Authors = ({ result, client }) => {
+ // const [person, setPerson] = useState(null)
+console.log(result)
+  if (result.loading) {
+    return <div>loading...</div>
   }
-  const authors = []
+
+ /*  const showPerson = async (name) => {
+    const { data } = await client.query({
+      query: FIND_PERSON,
+      variables: { nameToSearch: name }
+    })
+    setPerson(data.findPerson)
+  } */
+
+  /* if (person) {
+    return (
+      <div>
+        <h2>{person.name}</h2>
+        <div>{person.address.street} {person.address.city}</div>
+        <div>{person.phone}</div>
+        <button onClick={() => setPerson(null)}>close</button>
+      </div>
+    )
+  } */
+
+  
 
   return (
     <div>
-      <h2>authors</h2>
+      <h2>Authors</h2>
       <table>
         <tbody>
           <tr>
@@ -20,8 +44,8 @@ const Authors = (props) => {
               books
             </th>
           </tr>
-          {authors.map(a =>
-            <tr key={a.name}>
+          {result.data.allAuthors.map(a =>
+            <tr key={a.id}>
               <td>{a.name}</td>
               <td>{a.born}</td>
               <td>{a.bookCount}</td>
@@ -29,7 +53,7 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-
+      
     </div>
   )
 }
