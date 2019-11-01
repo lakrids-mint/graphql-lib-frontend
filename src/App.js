@@ -1,17 +1,11 @@
-import React, {useState} from 'react'
-import { Query, Mutation, ApolloConsumer } from 'react-apollo'
-import { gql } from 'apollo-boost'
-import Authors from './components/Authors'
-import Books from './components/Books'
-import NewBook from './components/NewBook'
-import AuthorForm from './components/AuthorForm'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+/* eslint-disable indent */
+import React, { useState } from "react"
+import { gql } from "apollo-boost"
+import Authors from "./components/Authors"
+import Books from "./components/Books"
+import NewBook from "./components/NewBook"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { BrowserRouter as Router, Route, Link }  from  "react-router-dom"
 
 const ALL_AUTHORS = gql`
 {
@@ -65,14 +59,15 @@ const EDIT_AUTHOR = gql`
 const App = () => {
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
-
   const [errorMessage, setErrorMessage] = useState(null)
-  const handleError = (error) => {
-    setErrorMessage("error.graphQLErrors[0].message")
+
+  const handleError = ({ error }) => {
+    setErrorMessage(error.graphQLErrors[0].message)
     setTimeout(() => {
       setErrorMessage(null)
     }, 10000)
   }
+
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     onError: handleError,
     refetchQueries: [{ query: ALL_AUTHORS }]
@@ -82,51 +77,25 @@ const App = () => {
     onError: handleError,
     refetchQueries: [{ query: ALL_BOOKS }]
   })
+
   return (
     <>
-    <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/books">Books</Link>
-            </li>
-            <li>
-              <Link to="/authors">Author</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/books">
-            <Books />
-          </Route>
-          <Route path="/authors">
-            <Authors />
-          </Route>
-          <Route path="/">
-            <App />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
      {errorMessage&&
-        <div style={{color: 'red'}}>
+        <div style={{ color: "red" }}>
           {errorMessage}
         </div>
-      }
-    <Books result={books}/>
-   <Authors result={authors}/>
-    <h2>create new</h2>
-    <NewBook  addBook={addBook}/>
-      {/* refetchQueries={[{ query: ALL_BOOKS }]} onError={handleError} */}
-    <AuthorForm editAuthor={editAuthor} />
-      
+     }
+     <Router><div>
+            <Link to="/addbook"><button>Add book</button></Link>
+            <Link to="/authors"><button>Authors</button></Link>
+            <Link to="/books"><button>Books</button></Link>
+          </div>
+          <div>
+          <Route exact path="/addbook" render={() => <NewBook addBook={addBook}/>} />
+          <Route path="/books" render={() => <Books result={books}/>} />
+          <Route path="/authors" render={() => <Authors result={authors} editAuthor={editAuthor} />} />
+        </div>
+    </Router>
   </>)
 }
 

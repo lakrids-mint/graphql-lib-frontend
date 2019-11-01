@@ -26,7 +26,7 @@ const AuthorForm = (props) => {
 
   return (
     <div>
-        <h2>Change birthyear</h2>
+        <h2>Add birth year</h2>
       <form onSubmit={submit}>
         <div>
           name

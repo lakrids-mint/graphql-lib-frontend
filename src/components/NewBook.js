@@ -1,38 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
 const NewBook = (props) => {
   console.log(props)
-  const [title, setTitle] = useState('')
-  const [author, setAuhtor] = useState('')
+  const [title, setTitle] = useState("")
+  const [author, setAuhtor] = useState("")
   const [published, setPublished] = useState("")
-  const [genre, setGenre] = useState('')
+  const [genre, setGenre] = useState("")
   const [genres, setGenres] = useState([])
 
- /*  if (!props.show) {
-    return null
-  } */
 
   const submit = async (e) => {
     e.preventDefault()
     await props.addBook({
       variables: { title, author, published, genres }
     })
-    console.log('add book...')
+    console.log("add book...")
 
-    setTitle('')
-    setPublished('')
-    setAuhtor('')
+    setTitle("")
+    setPublished("")
+    setAuhtor("")
     setGenres([])
-    setGenre('')
+    setGenre("")
   }
 
   const addGenre = () => {
     setGenres(genres.concat(genre))
-    setGenre('')
+    setGenre("")
   }
 
   return (
     <div>
+      <h1>Add book</h1>
       <form onSubmit={submit}>
         <div>
           title
@@ -64,7 +62,7 @@ const NewBook = (props) => {
           <button onClick={addGenre} type="button">add genre</button>
         </div>
         <div>
-          genres: {genres.join(' ')}
+          genres: {genres.join(" ")}
         </div>
         <button type='submit'>create book</button>
       </form>

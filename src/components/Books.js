@@ -1,15 +1,9 @@
-import React from 'react'
-import { useApolloClient } from '@apollo/react-hooks'
+import React from "react"
 
 const Books = ({ result }) => {
-  const client = useApolloClient()
-
- console.log(result)
- if (result.loading) {
-  return <div>loading...</div>
-}
-
-
+  if (result.loading) {
+    return <div>loading...</div>
+  }
   return (
     <div>
       <h2>books</h2>
@@ -25,7 +19,7 @@ const Books = ({ result }) => {
               published
             </th>
           </tr>
-         {result.data.allBooks.map(a =>
+          {result.data.allBooks.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>

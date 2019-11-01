@@ -1,18 +1,11 @@
-import React, { useState } from 'react'
-import { gql } from 'apollo-boost'
-import { useApolloClient } from '@apollo/react-hooks'
+import React from 'react'
+import AuthorForm from "./AuthorForm"
 
-const Authors = ({ result }) => {
-  const client = useApolloClient()
-
-  console.log(result)
-  if (result.loading) {
+const Authors = ({ result, editAuthor }) => {
+  console.log('author comp')
+  if (result.loading ) {
     return <div>loading...</div>
   }
-
-
-  
-
   return (
     <div>
       <h2>Authors</h2>
@@ -36,7 +29,8 @@ const Authors = ({ result }) => {
           )}
         </tbody>
       </table>
-      
+      <AuthorForm editAuthor={editAuthor} />
+
     </div>
   )
 }
