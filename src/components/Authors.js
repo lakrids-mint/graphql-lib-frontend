@@ -1,32 +1,15 @@
 import React, { useState } from 'react'
 import { gql } from 'apollo-boost'
+import { useApolloClient } from '@apollo/react-hooks'
 
+const Authors = ({ result }) => {
+  const client = useApolloClient()
 
-const Authors = ({ result, client }) => {
- // const [person, setPerson] = useState(null)
-console.log(result)
+  console.log(result)
   if (result.loading) {
     return <div>loading...</div>
   }
 
- /*  const showPerson = async (name) => {
-    const { data } = await client.query({
-      query: FIND_PERSON,
-      variables: { nameToSearch: name }
-    })
-    setPerson(data.findPerson)
-  } */
-
-  /* if (person) {
-    return (
-      <div>
-        <h2>{person.name}</h2>
-        <div>{person.address.street} {person.address.city}</div>
-        <div>{person.phone}</div>
-        <button onClick={() => setPerson(null)}>close</button>
-      </div>
-    )
-  } */
 
   
 

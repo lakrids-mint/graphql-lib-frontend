@@ -5,6 +5,13 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import AuthorForm from './components/AuthorForm'
+import { useQuery, useMutation } from '@apollo/react-hooks'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const ALL_AUTHORS = gql`
 {
@@ -12,6 +19,7 @@ const ALL_AUTHORS = gql`
     name
     born
     bookCount
+    id
     
   }
 }
@@ -55,6 +63,9 @@ const EDIT_AUTHOR = gql`
   }
 `
 const App = () => {
+  const authors = useQuery(ALL_AUTHORS)
+  const books = useQuery(ALL_BOOKS)
+
   const [errorMessage, setErrorMessage] = useState(null)
   const handleError = (error) => {
     setErrorMessage("error.graphQLErrors[0].message")
@@ -62,46 +73,60 @@ const App = () => {
       setErrorMessage(null)
     }, 10000)
   }
+  const [editAuthor] = useMutation(EDIT_AUTHOR, {
+    onError: handleError,
+    refetchQueries: [{ query: ALL_AUTHORS }]
+  })
+
+  const [addBook] = useMutation(CREATE_BOOK, {
+    onError: handleError,
+    refetchQueries: [{ query: ALL_BOOKS }]
+  })
   return (
     <>
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/books">Books</Link>
+            </li>
+            <li>
+              <Link to="/authors">Author</Link>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/books">
+            <Books />
+          </Route>
+          <Route path="/authors">
+            <Authors />
+          </Route>
+          <Route path="/">
+            <App />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
      {errorMessage&&
         <div style={{color: 'red'}}>
           {errorMessage}
         </div>
       }
-    <ApolloConsumer>
-      {(client =>
-        <Query query={ALL_BOOKS} >
-          {(result) =>
-            <Books result={result} client={client} />
-          }
-        </Query>
-      )}
-    </ApolloConsumer>
-    <ApolloConsumer>
-      {(client =>
-        <Query query={ALL_AUTHORS}>
-          {(result) =>
-            <Authors result={result} client={client} />
-          }
-        </Query>
-      )}
-    </ApolloConsumer>
+    <Books result={books}/>
+   <Authors result={authors}/>
     <h2>create new</h2>
-      <Mutation mutation={CREATE_BOOK }  refetchQueries={[{ query: ALL_BOOKS }]} onError={handleError}>
-        {(addBook) =>
-          <NewBook
-            addBook={addBook}
-          />
-        }
-      </Mutation>
-      <Mutation mutation={EDIT_AUTHOR }  refetchQueries={[{ query: ALL_AUTHORS }]} onError={handleError}>
-        {(editAuthor) =>
-          <AuthorForm
-            editAuthor={editAuthor}
-          />
-        }
-      </Mutation>
+    <NewBook  addBook={addBook}/>
+      {/* refetchQueries={[{ query: ALL_BOOKS }]} onError={handleError} */}
+    <AuthorForm editAuthor={editAuthor} />
+      
   </>)
 }
 

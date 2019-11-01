@@ -1,6 +1,9 @@
 import React from 'react'
+import { useApolloClient } from '@apollo/react-hooks'
 
-const Books = ({ result, client }) => {
+const Books = ({ result }) => {
+  const client = useApolloClient()
+
  console.log(result)
  if (result.loading) {
   return <div>loading...</div>

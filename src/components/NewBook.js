@@ -4,7 +4,7 @@ const NewBook = (props) => {
   console.log(props)
   const [title, setTitle] = useState('')
   const [author, setAuhtor] = useState('')
-  const [published, setPublished] = useState(null)
+  const [published, setPublished] = useState("")
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
