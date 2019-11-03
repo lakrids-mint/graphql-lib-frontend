@@ -1,11 +1,12 @@
 /* eslint-disable indent */
 import React, { useState } from "react"
 import { gql } from "apollo-boost"
+import { useQuery, useMutation } from "@apollo/react-hooks"
+import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+
 import Authors from "./components/Authors"
 import Books from "./components/Books"
 import NewBook from "./components/NewBook"
-import { useQuery, useMutation } from "@apollo/react-hooks"
-import { BrowserRouter as Router, Route, Link }  from  "react-router-dom"
 
 const ALL_AUTHORS = gql`
 {
@@ -56,15 +57,15 @@ const EDIT_AUTHOR = gql`
     }
   }
 `
-const App = () => {
+const App: React.FC = () => {
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleError = ({ error }) => {
-    setErrorMessage(error.graphQLErrors[0].message)
+  const handleError = () => {
+    setErrorMessage("hey!")
     setTimeout(() => {
-      setErrorMessage(null)
+      setErrorMessage("")
     }, 10000)
   }
 
@@ -80,23 +81,23 @@ const App = () => {
 
   return (
     <>
-     {errorMessage&&
+      {errorMessage &&
         <div style={{ color: "red" }}>
           {errorMessage}
         </div>
-     }
-     <Router><div>
-            <Link to="/addbook"><button>Add book</button></Link>
-            <Link to="/authors"><button>Authors</button></Link>
-            <Link to="/books"><button>Books</button></Link>
-          </div>
-          <div>
-          <Route exact path="/addbook" render={() => <NewBook addBook={addBook}/>} />
-          <Route path="/books" render={() => <Books result={books}/>} />
-          <Route path="/authors" render={() => <Authors result={authors} editAuthor={editAuthor} />} />
+      }
+      <Router><div>
+        <Link to="/addbook"><button>Add book</button></Link>
+        <Link to="/"><button>Authors</button></Link>
+        <Link to="/books"><button>Books</button></Link>
+      </div>
+        <div>
+          <Route exact path="/addbook" render={() => <NewBook addBook={addBook} />} />
+          <Route path="/books" render={() => <Books books={books} />} />
+          <Route exact path="/" render={() => <Authors authors={authors} editAuthor={editAuthor} />} />
         </div>
-    </Router>
-  </>)
+      </Router>
+    </>)
 }
 
 export default App

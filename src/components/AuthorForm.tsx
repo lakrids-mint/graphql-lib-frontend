@@ -1,32 +1,32 @@
 import React, { useState } from 'react'
+import { number } from 'prop-types'
+import Author from "./interfaces"
 
-const AuthorForm = (props) => {
-  console.log(props)
+type AuthorFormProps = {
+  editAuthor: ({ }) => void
+}
+interface Variables {
+  name: String;
+  born: number;
+};
+const AuthorForm: React.FC<AuthorFormProps> = ({ editAuthor }) => {
   const [name, setName] = useState('')
   const [born, setBorn] = useState("")
- 
 
- /*  if (!props.show) {
-    return null
-  } */
 
-  const submit = async (e) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault()
-    await props.editAuthor({
+    await editAuthor({
       variables: { name, born }
     })
     console.log('edit author...')
 
     setName('')
-    setBorn('')
-    
+    setBorn("")
   }
-
-  
-
   return (
     <div>
-        <h2>Add birth year</h2>
+      <h2>Add birth year</h2>
       <form onSubmit={submit}>
         <div>
           name
@@ -35,17 +35,14 @@ const AuthorForm = (props) => {
             onChange={({ target }) => setName(target.value)}
           />
         </div>
-       
         <div>
           born
           <input
             type='number'
             value={born}
-            onChange={({ target }) => setBorn(Number.parseInt(target.value))}
+            onChange={({ target }) => setBorn(target.value)}
           />
         </div>
-        
-       
         <button type='submit'>edit author</button>
       </form>
     </div>

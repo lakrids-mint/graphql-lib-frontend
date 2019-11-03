@@ -1,7 +1,11 @@
 import React, { useState } from "react"
 
-const NewBook = (props) => {
-  console.log(props)
+interface Props {
+  addBook: () => void
+
+}
+
+const NewBook: React.FC<Props> = ({ addBook }) => {
   const [title, setTitle] = useState("")
   const [author, setAuhtor] = useState("")
   const [published, setPublished] = useState("")
@@ -11,7 +15,7 @@ const NewBook = (props) => {
 
   const submit = async (e) => {
     e.preventDefault()
-    await props.addBook({
+    await addBook({
       variables: { title, author, published, genres }
     })
     console.log("add book...")

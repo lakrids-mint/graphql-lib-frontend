@@ -1,13 +1,17 @@
 import React from "react"
+import Book from "./interfaces"
 
-const Books = ({ result }) => {
-  if (result.loading) {
-    return <div>loading...</div>
-  }
+interface Props {
+  books: Book[]
+}
+
+const Books: React.FC<Props> = (Props) => {
+  /*   if (Props) {
+      return <div>loading...</div>
+    } */
   return (
     <div>
       <h2>books</h2>
-
       <table>
         <tbody>
           <tr>
@@ -19,7 +23,7 @@ const Books = ({ result }) => {
               published
             </th>
           </tr>
-          {result.data.allBooks.map(a =>
+          {Props.books.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>

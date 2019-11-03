@@ -1,11 +1,16 @@
 import React from 'react'
 import AuthorForm from "./AuthorForm"
+import Author from "./interfaces"
 
-const Authors = ({ result, editAuthor }) => {
-  console.log('author comp')
-  if (result.loading ) {
-    return <div>loading...</div>
-  }
+interface Props {
+  authors: Author[],
+  editAuthor: () => void
+}
+const Authors: React.FC<Props> = ({ authors, editAuthor }) => {
+  console.log(authors)
+  /*  if (result.loading) {
+     return <div>loading...</div>
+   } */
   return (
     <div>
       <h2>Authors</h2>
@@ -20,7 +25,7 @@ const Authors = ({ result, editAuthor }) => {
               books
             </th>
           </tr>
-          {result.data.allAuthors.map(a =>
+          {authors.map(a =>
             <tr key={a.id}>
               <td>{a.name}</td>
               <td>{a.born}</td>
@@ -30,7 +35,6 @@ const Authors = ({ result, editAuthor }) => {
         </tbody>
       </table>
       <AuthorForm editAuthor={editAuthor} />
-
     </div>
   )
 }
