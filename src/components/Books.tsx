@@ -2,7 +2,7 @@ import React from "react"
 import Book from "./interfaces"
 
 interface Props {
-  books: Book[]
+  result?: any
 }
 
 const Books: React.FC<Props> = (Props) => {
@@ -23,7 +23,7 @@ const Books: React.FC<Props> = (Props) => {
               published
             </th>
           </tr>
-          {Props.books.map(a =>
+          {Props.result.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>

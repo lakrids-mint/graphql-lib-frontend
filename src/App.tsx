@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { gql } from "apollo-boost"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import Book from "./components/interfaces"
 
 import Authors from "./components/Authors"
 import Books from "./components/Books"
@@ -93,8 +94,8 @@ const App: React.FC = () => {
       </div>
         <div>
           <Route exact path="/addbook" render={() => <NewBook addBook={addBook} />} />
-          <Route path="/books" render={() => <Books books={books} />} />
-          <Route exact path="/" render={() => <Authors authors={authors} editAuthor={editAuthor} />} />
+          <Route path="/books" render={() => <Books result={books} />} />
+          <Route exact path="/" render={() => <Authors result={authors} editAuthor={editAuthor} />} />
         </div>
       </Router>
     </>)
