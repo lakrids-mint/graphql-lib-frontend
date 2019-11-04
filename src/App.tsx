@@ -1,75 +1,27 @@
 /* eslint-disable indent */
 import React, { useState } from "react"
-import { gql } from "apollo-boost"
 import { useQuery, useMutation } from "@apollo/react-hooks"
 import { BrowserRouter as Router, Route, Link } from "react-router-dom"
-import Book from "./components/interfaces"
-
+import {ALL_AUTHORS, ALL_BOOKS, EDIT_AUTHOR, CREATE_BOOK} from "./graphql"
 import Authors from "./components/Authors"
 import Books from "./components/Books"
 import NewBook from "./components/NewBook"
 
-const ALL_AUTHORS = gql`
-{
-  allAuthors  {
-    name
-    born
-    bookCount
-    id
-    
-  }
-}
-`
-const ALL_BOOKS = gql`
-{
-  allBooks  {
-    title
-    author
-    published
-    
-  }
-}
-`
-const CREATE_BOOK = gql`
-  mutation createBook($title: String!, $author: String!, $published: Int!, $genres: [String]) {
-    addBook(
-      title: $title,
-      author: $author,
-      published: $published,
-      genres: $genres
-    ) {
-      title
-      author
-      published
-      genres
-    }
-  }
-`
-const EDIT_AUTHOR = gql`
-  mutation editAuthor($name: String!, $born: Int!) {
-    editAuthor(
-      name: $name,
-      born: $born,
-     
-    ) {
-      name
-      born
-      
-    }
-  }
-`
+
 const App: React.FC = () => {
+   //error handling 
+   const [errorMessage, setErrorMessage] = useState<null|string |void>(null)
+
+   const handleError = (error:any) => {
+    setErrorMessage(error.graphQLErrors.length === 0? "something went wrong":error.graphQLErrors[0])
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 2000)
+  } 
+  //Queries
   const authors = useQuery(ALL_AUTHORS)
   const books = useQuery(ALL_BOOKS)
-  const [errorMessage, setErrorMessage] = useState("")
-
-  const handleError = () => {
-    setErrorMessage("hey!")
-    setTimeout(() => {
-      setErrorMessage("")
-    }, 10000)
-  }
-
+  //Mutations
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
     onError: handleError,
     refetchQueries: [{ query: ALL_AUTHORS }]
@@ -79,7 +31,7 @@ const App: React.FC = () => {
     onError: handleError,
     refetchQueries: [{ query: ALL_BOOKS }]
   })
-
+ 
   return (
     <>
       {errorMessage &&

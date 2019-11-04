@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { number } from 'prop-types'
-import Author from "./interfaces"
+
 
 type AuthorFormProps = {
   editAuthor: ({ }) => void
@@ -11,7 +10,7 @@ interface Variables {
 };
 const AuthorForm: React.FC<AuthorFormProps> = ({ editAuthor }) => {
   const [name, setName] = useState('')
-  const [born, setBorn] = useState("")
+  const [born, setBorn] = useState<string | number | undefined>("")
 
 
   const submit = async (e: React.FormEvent) => {
@@ -40,7 +39,7 @@ const AuthorForm: React.FC<AuthorFormProps> = ({ editAuthor }) => {
           <input
             type='number'
             value={born}
-            onChange={({ target }) => setBorn(target.value)}
+            onChange={({ target }) => setBorn(Number.parseInt(target.value))}
           />
         </div>
         <button type='submit'>edit author</button>
