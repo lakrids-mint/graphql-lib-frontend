@@ -2,13 +2,18 @@ import React from "react"
 import Book from "./interfaces"
 
 interface Props {
-  result?: any
+  result: {
+    data:{
+      allBooks:Array<Book>
+    }
+    loading: boolean
+  },
 }
 
-const Books: React.FC<Props> = (Props) => {
-  /*   if (Props) {
+const Books: React.FC<Props> = ({result}) => {
+  if (result.loading) {
       return <div>loading...</div>
-    } */
+    } 
   return (
     <div>
       <h2>books</h2>
@@ -23,11 +28,11 @@ const Books: React.FC<Props> = (Props) => {
               published
             </th>
           </tr>
-          {Props.result.map(a =>
-            <tr key={a.title}>
-              <td>{a.title}</td>
-              <td>{a.author}</td>
-              <td>{a.published}</td>
+          {result.data.allBooks.map(b =>
+            <tr key={b.title}>
+              <td>{b.title}</td>
+              <td>{b.author}</td>
+              <td>{b.published}</td>
             </tr>
           )}
         </tbody>

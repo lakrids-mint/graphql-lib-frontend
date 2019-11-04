@@ -1,19 +1,26 @@
 import React, { useState } from "react"
+import { MutationFunction, MutationFunctionOptions, ExecutionResult } from "@apollo/react-common"
+import { undefinedVarMessage } from "graphql/validation/rules/NoUndefinedVariables"
 
 interface Props {
-  addBook: () => void
-
-}
+  addBook:
+   (options?: MutationFunctionOptions<any, Record<string, any>> | undefined) => Promise<ExecutionResult<any>>
+  
+ 
+  }
+  
 
 const NewBook: React.FC<Props> = ({ addBook }) => {
   const [title, setTitle] = useState("")
   const [author, setAuhtor] = useState("")
-  const [published, setPublished] = useState("")
+//explicitly setting number or null as type otherwise the parseInt wont work
+  const [published, setPublished] = useState<string | number | string[] | undefined>()
   const [genre, setGenre] = useState("")
-  const [genres, setGenres] = useState([])
+  //infers array to never[] if not set explicitly 
+  const [genres, setGenres] = useState<Array<String>>([""])
 
 
-  const submit = async (e) => {
+  const submit = async (e:React.FormEvent) => {
     e.preventDefault()
     await addBook({
       variables: { title, author, published, genres }
@@ -21,9 +28,9 @@ const NewBook: React.FC<Props> = ({ addBook }) => {
     console.log("add book...")
 
     setTitle("")
-    setPublished("")
+    setPublished(0)
     setAuhtor("")
-    setGenres([])
+    setGenres([""])
     setGenre("")
   }
 

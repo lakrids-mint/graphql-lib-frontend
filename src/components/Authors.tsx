@@ -3,14 +3,19 @@ import AuthorForm from "./AuthorForm"
 import Author from "./interfaces"
 
 interface Props {
-  result?: any,
+  result: {
+    data:{
+      allAuthors:Array<Author>
+    }
+    loading: boolean
+  },
   editAuthor: () => void
 }
 const Authors: React.FC<Props> = ({ result, editAuthor }) => {
   console.log(result)
-  /*  if (result.loading) {
+  if (result.loading) {
      return <div>loading...</div>
-   } */
+   } 
   return (
     <div>
       <h2>Authors</h2>
@@ -25,7 +30,7 @@ const Authors: React.FC<Props> = ({ result, editAuthor }) => {
               books
             </th>
           </tr>
-          {result.map(a =>
+          {result.data.allAuthors.map(a =>
             <tr key={a.id}>
               <td>{a.name}</td>
               <td>{a.born}</td>

@@ -13,3 +13,6 @@ export default interface Book {
     published: number,
     genres: string[]
 }
+/* export default interface Genre {
+    genre: string
+} */
