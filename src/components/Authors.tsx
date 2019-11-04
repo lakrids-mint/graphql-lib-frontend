@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthorForm from "./AuthorForm"
-import Author from "./interfaces"
+import Author from "../interfaces"
 
 interface Props {
   result: {

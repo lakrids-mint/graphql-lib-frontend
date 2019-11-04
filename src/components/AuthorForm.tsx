@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 
 
 type AuthorFormProps = {
+  //why is it ok here to return void, n´but not in NewBook/addBook props, TypeScript? 
   editAuthor: ({ }) => void
 }
+//because I declared the variables here? 
 interface Variables {
   name: String;
   born: number;
