@@ -2,7 +2,8 @@ import React from 'react'
 import AuthorForm from "./AuthorForm"
 
 const Authors = ({ result, editAuthor }) => {
-  console.log('author comp')
+  console.log(result)
+  console.log(typeof result)
   if (result.loading ) {
     return <div>loading...</div>
   }

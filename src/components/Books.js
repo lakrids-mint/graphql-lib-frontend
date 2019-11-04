@@ -1,6 +1,7 @@
 import React from "react"
 
 const Books = ({ result }) => {
+  console.log(result)
   if (result.loading) {
     return <div>loading...</div>
   }
