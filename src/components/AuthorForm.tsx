@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 
-
 type AuthorFormProps = {
-  //why is it ok here to return void, n´but not in NewBook/addBook props, TypeScript? 
+  //better or worse than  the NewBook/addBook solution? 
   editAuthor: ({ }) => void
 }
-//because I declared the variables here? 
+
 interface Variables {
   name: String;
   born: number;
 };
+
 const AuthorForm: React.FC<AuthorFormProps> = ({ editAuthor }) => {
   const [name, setName] = useState('')
-  const [born, setBorn] = useState<string | number | undefined>("")
-
+  const [born, setBorn] = useState<string | number >("")
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -21,10 +20,10 @@ const AuthorForm: React.FC<AuthorFormProps> = ({ editAuthor }) => {
       variables: { name, born }
     })
     console.log('edit author...')
-
     setName('')
     setBorn("")
   }
+  
   return (
     <div>
       <h2>Add birth year</h2>

@@ -1,6 +1,7 @@
 import React from "react"
 import Book from "../interfaces"
 
+//this works, but doesn't seem optimal
 interface Props {
   result: {
     data:{
@@ -14,6 +15,7 @@ const Books: React.FC<Props> = ({result}) => {
   if (result.loading) {
       return <div>loading...</div>
     } 
+    
   return (
     <div>
       <h2>books</h2>

@@ -2,6 +2,7 @@ import React from 'react'
 import AuthorForm from "./AuthorForm"
 import Author from "../interfaces"
 
+//this works, but doesn't seem optimal
 interface Props {
   result: {
     data:{
@@ -11,11 +12,13 @@ interface Props {
   },
   editAuthor: () => void
 }
+
 const Authors: React.FC<Props> = ({ result, editAuthor }) => {
   console.log(result)
   if (result.loading) {
      return <div>loading...</div>
    } 
+   
   return (
     <div>
       <h2>Authors</h2>

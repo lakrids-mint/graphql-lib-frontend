@@ -3,9 +3,7 @@ export default interface Author {
     born?: number,
     id: number,
     bookCount: number
-
 }
-
 
 export default interface Book {
     title: string,

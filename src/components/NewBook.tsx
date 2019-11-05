@@ -3,30 +3,24 @@ import { MutationFunctionOptions, ExecutionResult } from "@apollo/react-common"
 
 interface Props {
   addBook:
-   (options?: MutationFunctionOptions<any, Record<string, any>> | undefined) => Promise<ExecutionResult<any>>
-  
- 
+   (options?: MutationFunctionOptions<any, Record<string, any>> | undefined) => Promise<ExecutionResult<any>>//this can't be optimal, it's barely readable
   }
-  
 
 const NewBook: React.FC<Props> = ({ addBook }) => {
   const [title, setTitle] = useState("")
   const [author, setAuhtor] = useState("")
-//explicitly setting number or null as type otherwise the parseInt and value attribute wont work
-//not entirely satisfying 
-  const [published, setPublished] = useState<string | number | string[] | undefined>("")
+//explicitly setting number or string as type otherwise the parseInt and value attribute wont work - is this how it's done?
+  const [published, setPublished] = useState<string | number >("")
   const [genre, setGenre] = useState("")
   //infers array to never[] if not set explicitly 
   const [genres, setGenres] = useState<Array<String>>([""])
-
 
   const submit = async (e:React.FormEvent) => {
     e.preventDefault()
     await addBook({
       variables: { title, author, published, genres }
     })
-    console.log("add book...")
-
+    
     setTitle("")
     setPublished("")
     setAuhtor("")
